@@ -6,12 +6,12 @@ const app = express();
 // middlewares
 app.use(express.json())
 app.use(router);
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3006'); // Allow requests from this origin
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Add allowed methods
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization'); // Add allowed headers
-  next();
-});
+app.use(
+  cors({
+    origin: ['http://localhost:3006'],
+    credentials: true,
+  })
+);
 app.use(cors());
 // Server and Database Connection
 const port = 3856;
