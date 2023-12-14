@@ -7,6 +7,15 @@ const { userEdit, userView , createUserByEmail , createUserByPhone} = require('.
 
 
 // Flight Routes
+router.get('/' , (req , res) => {
+    const jsonData = { key: 'value' };
+
+  // Set the response header to indicate JSON content
+  res.setHeader('Content-Type', 'application/json');
+
+  // Send the JSON data as the response
+  res.send(JSON.stringify(jsonData));
+})
 router.get('/allFlights', allFlights)
 
 router.get('/getCities', async (req, res) => {

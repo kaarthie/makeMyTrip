@@ -82,7 +82,9 @@ module.exports.searchCity = async (req, res) => {
       const { query } = req.query;
   
       if (!query) {
-        return res.status(400).json({ error: 'Missing query parameter' });
+        const results = await City.find({});
+        res.json({ cities: results.slice(0,10) });
+        return; 
       }
   
       const regex = new RegExp(`^${query}`, 'i'); // Case-insensitive regex for starts with

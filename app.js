@@ -15,7 +15,7 @@ function server() {
     .connect('mongodb+srv://karthi:karthi2001@first.ixg5wi3.mongodb.net/mmt')
     .then(() => {
       console.log("Database Connected");
-      app.listen(port, '0.0.0.0', (err) => {
+      app.listen(port,(err) => {
         if (!err) {
           console.log("Server listening to the port ", port);
         } else {
