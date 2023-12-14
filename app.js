@@ -6,10 +6,12 @@ const app = express();
 // middlewares
 app.use(express.json())
 app.use(router);
-app.use(cors({
-  origin: '*',
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://4610-115-246-250-59.ngrok-free.app/'],
+    credentials: true,
+  })
+);
 // Server and Database Connection
 const port = 3856;
 function server() {
