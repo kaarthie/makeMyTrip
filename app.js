@@ -9,7 +9,7 @@ app.use(router);
 app.use(cors);
 
 // Server and Database Connection
-const port = 3999;
+const port = 3856;
 function server() {
   mongoose
     .connect('mongodb+srv://karthi:karthi2001@first.ixg5wi3.mongodb.net/mmt')
