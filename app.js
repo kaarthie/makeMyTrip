@@ -8,11 +8,10 @@ app.use(express.json())
 app.use(router);
 app.use(
   cors({
-    origin: ['http://localhost:3006'],
+    origin: ['http://localhost:3006' , 'http://localhost:3007' , 'http://localhost:3008' , 'http://localhost:3009'],
     credentials: true,
   })
 );
-app.use(cors());
 // Server and Database Connection
 const port = 3856;
 function server() {
