@@ -6,7 +6,12 @@ const app = express();
 // middlewares
 app.use(express.json())
 app.use(router);
-app.use(cors);
+app.use(cors({
+  origin: '*', // Replace with your frontend's URL
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // enable set cookie with credentials
+  optionsSuccessStatus: 204,
+}));
 
 // Server and Database Connection
 const port = 3856;
