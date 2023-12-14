@@ -8,7 +8,7 @@ app.use(express.json())
 app.use(router);
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://4610-115-246-250-59.ngrok-free.app/'],
+    origin: ['http://localhost:3000', 'https://backend-mmt.onrender.com/'],
     credentials: true,
   })
 );
