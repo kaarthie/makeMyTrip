@@ -75,7 +75,7 @@ module.exports.searchFlights = async (req , res) => {
 module.exports.allFlights = async (req , res) => {
     const flights = await Flight.find({});
     res.send(flights);
-}
+  }
 
 module.exports.searchCity = async (req, res) => {
     try {
@@ -95,7 +95,7 @@ module.exports.searchCity = async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
-  module.exports.searchCity2 = async (req, res) => {
+module.exports.searchCity2 = async (req, res) => {
     try {
       const { query } = req.query;
   
