@@ -8,7 +8,7 @@ app.use(express.json())
 app.use(router);
 app.use(
   cors({
-    origin: ['https://localhost:3006' , 'https://localhost:3007' , 'https://localhost:3008' , 'https://localhost:3009'],
+    origin: ['http://localhost:3006' , 'http://localhost:3007' , 'http://localhost:3008' , 'http://localhost:3009'],
     credentials: true,
   })
 );
