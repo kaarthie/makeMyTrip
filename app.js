@@ -4,14 +4,14 @@ const cors = require('cors');
 const router = require('./routes/routes.js')
 const app = express();
 // middlewares
-app.use(express.json())
-app.use(router);
 app.use(
   cors({
     origin: ['http://localhost:3000', 'https://backend-mmt.onrender.com/'],
     credentials: true,
   })
 );
+app.use(express.json())
+app.use(router);
 // Server and Database Connection
 const port = 3856;
 function server() {
