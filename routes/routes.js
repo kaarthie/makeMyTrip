@@ -11,6 +11,7 @@ router.get('/allFlights', allFlights)
 
 router.get('/getCities', async (req, res) => {
     let arr = await City.find({});
+    console.log("hai")
     res.send(arr);
 })
 
