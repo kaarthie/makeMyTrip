@@ -99,7 +99,7 @@ module.exports.createUserByEmail = async (req, res) => {
 // Phone Verification
 
 const accountSid = 'AC2f0732362152cc6d9ff824ebf8709bbe';
-const authToken = '2d52787c4b13b3c42b9cadf5be4e3100';
+const authToken = 'dca45d231ce229ddd98dc2a7627e1c2d';
 const client = twilio(accountSid, authToken);
 const {EmailOTP , PhoneOTP} = require('../models/otpModel.js')
 module.exports.createUserByPhone = async (req, res) => {
@@ -126,21 +126,27 @@ module.exports.createUserByPhone = async (req, res) => {
   }
 };
 
-module.exports.verifyPhone = async (req , res) => {
-  const {phone , otp} = req.body;
-  const num = await PhoneOTP.findOne({phone , otp});
-  if (num) {
-    const createdAtDate = num.createdAt;
+module.exports.verifyPhone = async (req, res) => {
+  const { phone, otp } = req.body;
+
+  try {
+    const num = await PhoneOTP.findOne({ phone, otp });
+
+    if (num) {
+      const createdAtDate = num.createdAt;
       const currentDateTime = new Date();
       const timeDifferenceInSeconds = Math.floor((currentDateTime - createdAtDate) / 1000);
+
       if (timeDifferenceInSeconds <= 90) {
         res.status(200).json({ message: 'OTP verified successfully' });
-        return;
       } else {
         res.status(401).json({ error: 'OTP has expired' });
       }
-    res.status(200).json({ message: 'OTP verified successfully' });
-  } else {
-    res.status(401).json({ error: 'Invalid OTP' });
+    } else {
+      res.status(401).json({ error: 'Invalid OTP' });
+    }
+  } catch (error) {
+    console.error('Error verifying OTP:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-}
+};
