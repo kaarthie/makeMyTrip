@@ -13,7 +13,7 @@ app.use(
 app.use(express.json())
 app.use(router);
 // Server and Database Connection
-const port = 3856;
+const port = 3000;
 function server() {
   mongoose
     .connect('mongodb+srv://karthi:karthi2001@first.ixg5wi3.mongodb.net/mmt')

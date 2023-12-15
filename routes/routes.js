@@ -3,18 +3,12 @@ const router = express.Router();
 const City = require('../models/cityModel.js');
 // Importing Controllers
 const {searchFlights, allFlights, searchCity, searchCity2 } = require('../controllers/flightController.js');
-const { userEdit, userView , createUserByEmail , createUserByPhone} = require('../controllers/userController.js');
+const { userEdit, userView , createUserByEmail , createUserByPhone, verifyPhone} = require('../controllers/userController.js');
 
 
 // Flight Routes
 router.get('/' , (req , res) => {
-    const jsonData = { key: 'value' };
-
-  // Set the response header to indicate JSON content
-  res.setHeader('Content-Type', 'application/json');
-
-  // Send the JSON data as the response
-  res.send(JSON.stringify(jsonData));
+    res.json({home : "page"})
 })
 router.get('/allFlights', allFlights)
 
@@ -34,7 +28,8 @@ router.post("/searchFlights", searchFlights);
 
 router.post('/createUserByEmail' , createUserByEmail);
 router.post('/createUserByPhone' , createUserByPhone);
+router.post('/verifyPhone' , verifyPhone);
+// router.post('/verifyEmail',verifyEmail)
 router.put('/editUser/:userId', userEdit);
 router.get('/viewUser/:userId', userView);
-
 module.exports = router;

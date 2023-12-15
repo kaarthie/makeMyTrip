@@ -1,5 +1,6 @@
 const User = require('../models/userModel.js');
 const nodemailer = require('nodemailer');
+const twilio = require('twilio');
 module.exports.userView = async (req, res) => {
   const userId = req.params.userId;
 
@@ -48,10 +49,14 @@ module.exports.userEdit = async (req, res) => {
   }
 }
 
+
+// Email Verification
+
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
+
 module.exports.createUserByEmail = async (req, res) => {
   try {
     const { email } = req.body;
@@ -91,7 +96,51 @@ module.exports.createUserByEmail = async (req, res) => {
 
 }
 
-module.exports.createUserByPhone = async (req , res) => {
-  const {phone} = req.body;
-  
+// Phone Verification
+
+const accountSid = 'AC2f0732362152cc6d9ff824ebf8709bbe';
+const authToken = '2d52787c4b13b3c42b9cadf5be4e3100';
+const client = twilio(accountSid, authToken);
+const {EmailOTP , PhoneOTP} = require('../models/otpModel.js')
+module.exports.createUserByPhone = async (req, res) => {
+  const { phone } = req.body;
+
+  try {
+    // Generate a random OTP (you can use a library like `otp-generator`)
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+    const message = await client.messages.create({
+      body: `Your OTP for MakeMyTrip verification is : ${otp}`,
+      from: '+15106191068',
+      to: phone,
+    });
+
+    console.log(`OTP sent to ${phone}: ${message.sid}`);
+    await PhoneOTP.create({
+      phone,
+      otp
+    });
+    res.status(200).json({ message: 'OTP sent successfully' });
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+module.exports.verifyPhone = async (req , res) => {
+  const {phone , otp} = req.body;
+  const num = await PhoneOTP.findOne({phone , otp});
+  if (num) {
+    const createdAtDate = num.createdAt;
+      const currentDateTime = new Date();
+      const timeDifferenceInSeconds = Math.floor((currentDateTime - createdAtDate) / 1000);
+      if (timeDifferenceInSeconds <= 90) {
+        res.status(200).json({ message: 'OTP verified successfully' });
+        return;
+      } else {
+        res.status(401).json({ error: 'OTP has expired' });
+      }
+    res.status(200).json({ message: 'OTP verified successfully' });
+  } else {
+    res.status(401).json({ error: 'Invalid OTP' });
+  }
 }
