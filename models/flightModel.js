@@ -7,13 +7,13 @@ const flightSchema = new mongoose.Schema({
   },
   departure: {
     city: { type: String, required: [true, 'Departure city is required'] },
-    cityCode: { type: String, required: [true, 'Departure city code is required'] },
+    cityCode: { type: String },
     airport: { type: String },
     time: { type: Date, required: [true, 'Departure time is required'] },
   },
   arrival: {
     city: { type: String, required: [true, 'Arrival city is required'] },
-    cityCode: { type: String, required: [true, 'Arrival city code is required'] },
+    cityCode: { type: String},
     airport: { type: String },
     time: { type: Date, required: [true, 'Arrival time is required'] },
   },

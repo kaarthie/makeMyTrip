@@ -150,3 +150,28 @@ module.exports.verifyPhone = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+module.exports.verifyEmail = async(req , res) => {
+  const { email, otp } = req.body;
+
+  try {
+    const num = await PhoneOTP.findOne({ email, otp });
+
+    if (num) {
+      const createdAtDate = num.createdAt;
+      const currentDateTime = new Date();
+      const timeDifferenceInSeconds = Math.floor((currentDateTime - createdAtDate) / 1000);
+
+      if (timeDifferenceInSeconds <= 90) {
+        res.status(200).json({ message: 'OTP verified successfully' });
+      } else {
+        res.status(401).json({ error: 'OTP has expired' });
+      }
+    } else {
+      res.status(401).json({ error: 'Invalid OTP' });
+    }
+  } catch (error) {
+    console.error('Error verifying OTP:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

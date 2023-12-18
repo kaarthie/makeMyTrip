@@ -13,6 +13,11 @@ app.use(
 app.use(express.json())
 app.use(router);
 // Server and Database Connection
+
+app.get('/home' , (req , res) => {
+  console.log(req);
+  res.send("Homeyyyy");
+})
 const port = 3000;
 function server() {
   mongoose
