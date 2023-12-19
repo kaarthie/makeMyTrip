@@ -56,8 +56,7 @@ module.exports.searchFlights = async (req, res) => {
         },
         arrival: {
           city: to.city,
-          time: addDurationToTimestamp(timestamps[i], duration).getHours()
-          + ":" +addDurationToTimestamp(timestamps[i], duration).getMinutes(),
+          time: addDurationToTimestamp(timestamps[i], duration),
           cityCode: to.cityCode,
           airport: arrAirport
         },
@@ -161,8 +160,13 @@ function addDurationToTimestamp(timestampString, duration) {
   timestamp.add(duration.hours, 'hours');
   timestamp.add(duration.minutes, 'minutes');
 
-  // Format and return the resulting timestamp
-  return timestamp.toDate();
+  // Get hours and minutes
+  const hours = timestamp.format('HH');
+  const minutes = timestamp.format('mm');
+
+  // Format and return the resulting time as a string
+  const formattedTime = `${hours}:${minutes}`;
+  return formattedTime;
 }
 
 // Function to convert degrees to radians
