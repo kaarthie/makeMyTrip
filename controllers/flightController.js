@@ -50,7 +50,7 @@ module.exports.searchFlights = async (req, res) => {
         },
         departure: {
           city: from.city,
-          time: timestamps[i].getHours()+":"+timestamps[i].getMinutes(),
+          time: timestampToHoursMinutesString(timestamps[i]),
           cityCode: from.cityCode,
           airport: depAirport
         },
@@ -245,4 +245,18 @@ function findAirportNameByCity(cityName) {
   const lowerCaseCity = cityName.toLowerCase();
   const airport = airports.find(airport => airport.city.toLowerCase() == lowerCaseCity);
   return airport ? airport.name : null;
+}
+
+function timestampToHoursMinutesString(timestamp) {
+  // Ensure that the input is a valid Date object
+  if (!(timestamp instanceof Date)) {
+    throw new Error('Invalid timestamp. Must be a Date object.');
+  }
+
+  // Get hours and minutes
+  const hours = String(timestamp.getHours()).padStart(2, '0');
+  const minutes = String(timestamp.getMinutes()).padStart(2, '0');
+
+  // Concatenate hours and minutes with ':' and return the formatted string
+  return `${hours}:${minutes}`;
 }
