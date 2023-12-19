@@ -31,8 +31,9 @@ module.exports.searchFlights = async (req, res) => {
 
     // Generate five timestamps for the same day in the future
     for (let i = 1; i <= 5; i++) {
-      const futureTimestamp = givenDate + i * 60 * 60 * 1000; // Add i hours
+      const futureTimestamp = givenDate.getTime() + i * 60 * 60 * 1000; // Add i hours
       timestamps.push(new Date(futureTimestamp));
+      console.log(timestamps);
     }
 
     const distance = await getAirDistance(from.city, to.city);
