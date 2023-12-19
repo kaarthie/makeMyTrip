@@ -29,6 +29,9 @@ const flightSchema = new mongoose.Schema({
   logo: {
     type: String,
   },
+  stop : {
+    type : String,
+  }
 });
 
 const Flight = mongoose.model('flights' , flightSchema);

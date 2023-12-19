@@ -99,7 +99,7 @@ module.exports.createUserByEmail = async (req, res) => {
 // Phone Verification
 
 const accountSid = 'AC2f0732362152cc6d9ff824ebf8709bbe';
-const authToken = 'dca45d231ce229ddd98dc2a7627e1c2d';
+const authToken = '3dc77a16776ef0ee481ff7caabe78f05';
 const client = twilio(accountSid, authToken);
 const {EmailOTP , PhoneOTP} = require('../models/otpModel.js')
 module.exports.createUserByPhone = async (req, res) => {
