@@ -41,6 +41,7 @@ module.exports.searchFlights = async (req, res) => {
     const depAirport = findAirportNameByCity(from.city);
     const arrAirport = findAirportNameByCity(to.city);
     const price = calculatePrice(fareType, distance);
+    let ct = 1;
     for (i = 0; i < 5; i++) {
       let newFlight = {
         airline: {
@@ -66,7 +67,7 @@ module.exports.searchFlights = async (req, res) => {
         price: {
           basePrice: Math.floor(price),
           tax: Math.floor(price / 10),
-          total: Math.floor(price + price / 10)
+          total: Math.floor(Math.floor(price + price / 10)*ct)
         }
       };
       const stopsArray = ["Non Stop", "1 stop", "2 stops"];
@@ -77,6 +78,7 @@ module.exports.searchFlights = async (req, res) => {
       newFlight.stop = getRandomStop();
       newFlights.push(newFlight);
       await Flight.create(newFlight)
+      ct+= 0.5;
     }
     res.status(200).json(newFlights);
   }
