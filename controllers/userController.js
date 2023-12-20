@@ -79,12 +79,16 @@ module.exports.createUserByEmail = async (req, res) => {
       html: `<p>Your OTP for MakeMyTrip Verification: <b>${otp}</b></p>`,
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
+    transporter.sendMail(mailOptions, async (error, info) => {
       if (error) {
         console.error('Error sending email:', error);
         return res.status(500).json({ error: 'Error sending OTP email' });
       } else {
         console.log('Email sent:', info.response);
+        await EmailOTP.create({
+          email,
+          otp
+        });
         res.status(200).json({ otp: otp })
       }
     });
