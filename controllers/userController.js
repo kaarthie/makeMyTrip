@@ -186,7 +186,7 @@ module.exports.userCheck = async (req , res) => {
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return res.status(400).json({ email , message: 'Exists' });
+      return res.status(200).json({ email , message: 'Exists' });
     }
     res.status(404).json({ email , message : "Do not Exists" });
   } catch (error) {
