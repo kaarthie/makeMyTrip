@@ -57,7 +57,7 @@ const validateEmail = (email) => {
   return emailRegex.test(email);
 };
 
-module.exports.createUserByEmail = async (req, res) => {
+module.exports.otpEmail = async (req, res) => {
   try {
     const { email } = req.body;
     if (!validateEmail(email)) {
@@ -105,8 +105,8 @@ module.exports.createUserByEmail = async (req, res) => {
 const accountSid = 'AC2f0732362152cc6d9ff824ebf8709bbe';
 const authToken = '3dc77a16776ef0ee481ff7caabe78f05';
 const client = twilio(accountSid, authToken);
-const {EmailOTP , PhoneOTP} = require('../models/otpModel.js')
-module.exports.createUserByPhone = async (req, res) => {
+const { EmailOTP, PhoneOTP } = require('../models/otpModel.js')
+module.exports.otpPhone = async (req, res) => {
   const { phone } = req.body;
 
   try {
@@ -126,7 +126,7 @@ module.exports.createUserByPhone = async (req, res) => {
     res.status(200).json({ message: 'OTP sent successfully' });
   } catch (error) {
     console.error('Error sending OTP:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -155,7 +155,7 @@ module.exports.verifyPhone = async (req, res) => {
   }
 };
 
-module.exports.verifyEmail = async(req , res) => {
+module.exports.verifyEmail = async (req, res) => {
   const { email, otp } = req.body;
 
   try {
@@ -179,19 +179,42 @@ module.exports.verifyEmail = async(req , res) => {
   }
 };
 
-module.exports.userCheck = async (req , res) => {
+module.exports.userCheck = async (req, res) => {
   const { email } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return res.status(200).json({ email , message: 'Exists' });
+      return res.status(200).json({ email, message: 'Exists' });
     }
-    res.status(404).json({ email , message : "Do not Exists" });
+    res.status(404).json({ email, message: "Do not Exists" });
   } catch (error) {
     // Handle any other errors that might occur during the process
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+module.exports.setPassword = async (req, res) => {
+  try {
+    const { email, name, password } = req.body;
+    if (!name) {
+      let user = await User.findOne({ email });
+      console.log(user);
+      if (user.password === password) {
+        res.status(200).json({ message: "Login Success" });
+      } else {
+        res.status(401).json({ message: "Incorrect Password" })
+      }
+    }
+    else {
+      const newUser = new User({ email, name, password });
+      await newUser.save();
+      res.status(200).json({ message: "User Created Successfully" })
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
   }
 }

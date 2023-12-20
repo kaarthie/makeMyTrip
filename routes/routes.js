@@ -3,7 +3,7 @@ const router = express.Router();
 const City = require('../models/cityModel.js');
 // Importing Controllers
 const {searchFlights, allFlights, searchCity, searchCity2 } = require('../controllers/flightController.js');
-const { userEdit, userView , createUserByEmail , createUserByPhone, verifyPhone, userCheck , verifyEmail} = require('../controllers/userController.js');
+const { userEdit, userView , otpEmail , otpPhone, verifyPhone, userCheck , verifyEmail, setPassword} = require('../controllers/userController.js');
 
 
 // Flight Routes
@@ -26,11 +26,12 @@ router.post("/searchFlights", searchFlights);
 
 // User Routes
 
-router.post('/createUserByEmail' , createUserByEmail);
-router.post('/createUserByPhone' , createUserByPhone);
+router.post('/otpEmail' , otpEmail);
+router.post('/otpPhone' , otpPhone);
 router.post('/verifyPhone' , verifyPhone);
 router.post('/verifyEmail',verifyEmail)
 router.put('/editUser/:userId', userEdit);
 router.get('/viewUser/:userId', userView);
-router.post('/userCheck' , userCheck)
+router.post('/userCheck' , userCheck);
+router.post('/setPassword' , setPassword);
 module.exports = router;
