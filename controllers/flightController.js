@@ -6,7 +6,6 @@ const City = require('../models/cityModel.js');
 
 module.exports.searchFlights = async (req, res) => {
   const { from, to, adultNos, childrenNos, fareType } = req.body;
-  let currDate = new Date(from.date);
 
   let flights = await Flight.find({
     'departure.city': from.city,
@@ -19,7 +18,6 @@ module.exports.searchFlights = async (req, res) => {
   else {
     let newFlights = [];
     const givenDateStr = from.date;
-    console.log(givenDateStr);
     // Parse the given date string to a Date object
     const givenDate = new Date(givenDateStr);
 
@@ -33,7 +31,6 @@ module.exports.searchFlights = async (req, res) => {
     for (let i = 1; i <= 5; i++) {
       const futureTimestamp = givenDate.getTime() + i * 60 * 60 * 1000; // Add i hours
       timestamps.push(new Date(futureTimestamp));
-      console.log(timestamps);
     }
 
     const distance = await getAirDistance(from.city, to.city);
@@ -67,7 +64,7 @@ module.exports.searchFlights = async (req, res) => {
         price: {
           basePrice: Math.floor(price),
           tax: Math.floor(price / 10),
-          total: Math.floor(Math.floor(price + price / 10)*ct)
+          total: Math.floor(Math.floor(price + price / 10) * ct)
         }
       };
       const stopsArray = ["Non Stop", "1 stop", "2 stops"];
@@ -78,7 +75,7 @@ module.exports.searchFlights = async (req, res) => {
       newFlight.stop = getRandomStop();
       newFlights.push(newFlight);
       await Flight.create(newFlight)
-      ct+= 0.5;
+      ct += 0.5;
     }
     res.status(200).json(newFlights);
   }
@@ -109,6 +106,7 @@ module.exports.searchCity = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 module.exports.searchCity2 = async (req, res) => {
   try {
     const { query } = req.query;
@@ -129,7 +127,6 @@ module.exports.searchCity2 = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
 
 //   Functions for calculation of duration 
 function calculatePrice(fareType, distance) {
@@ -230,10 +227,6 @@ async function getAirDistance(place1, place2) {
     console.error(error.message);
   }
 }
-
-// getAirDistance(place1, place2).then(airDistance => {
-//   console.log(`The air distance between ${place1} and ${place2} is approximately ${airDistance.toFixed(2)} kilometers.`);
-// });
 
 function calculateDuration(distance) {
   // Calculate time in hours

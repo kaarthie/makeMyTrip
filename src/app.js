@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require('cors');
-const router = require('../routes/routes.js')
+const flightRouter = require('../routes/flightRoutes.js')
+const authRouter = require('../routes/authRoutes.js');
 const app = express();
 // middlewares
 app.use(
@@ -11,7 +12,8 @@ app.use(
   })
 );
 app.use(express.json())
-app.use(router);
+app.use(authRouter);
+app.use(flightRouter);
 // Server and Database Connection
 
 app.get('/home' , (req , res) => {

@@ -1,6 +1,7 @@
 const User = require('../models/userModel.js');
 const nodemailer = require('nodemailer');
 const twilio = require('twilio');
+
 module.exports.userView = async (req, res) => {
   const userId = req.params.userId;
 
@@ -100,12 +101,14 @@ module.exports.otpEmail = async (req, res) => {
 
 }
 
-// Phone Verification
+// Phone Verification - Twilio credentials
 
 const accountSid = 'AC2f0732362152cc6d9ff824ebf8709bbe';
 const authToken = '3dc77a16776ef0ee481ff7caabe78f05';
 const client = twilio(accountSid, authToken);
 const { EmailOTP, PhoneOTP } = require('../models/otpModel.js')
+
+
 module.exports.otpPhone = async (req, res) => {
   const { phone } = req.body;
 
