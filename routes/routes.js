@@ -3,7 +3,7 @@ const router = express.Router();
 const City = require('../models/cityModel.js');
 // Importing Controllers
 const {searchFlights, allFlights, searchCity, searchCity2 } = require('../controllers/flightController.js');
-const { userEdit, userView , createUserByEmail , createUserByPhone, verifyPhone} = require('../controllers/userController.js');
+const { userEdit, userView , createUserByEmail , createUserByPhone, verifyPhone, userCheck} = require('../controllers/userController.js');
 
 
 // Flight Routes
@@ -32,4 +32,5 @@ router.post('/verifyPhone' , verifyPhone);
 // router.post('/verifyEmail',verifyEmail)
 router.put('/editUser/:userId', userEdit);
 router.get('/viewUser/:userId', userView);
+router.post('/userCheck' , userCheck)
 module.exports = router;

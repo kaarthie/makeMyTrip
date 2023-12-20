@@ -155,8 +155,7 @@ module.exports.verifyEmail = async(req , res) => {
   const { email, otp } = req.body;
 
   try {
-    const num = await PhoneOTP.findOne({ email, otp });
-
+    const num = await EmailOTP.findOne({ email, otp });
     if (num) {
       const createdAtDate = num.createdAt;
       const currentDateTime = new Date();
@@ -175,3 +174,20 @@ module.exports.verifyEmail = async(req , res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+module.exports.userCheck = async (req , res) => {
+  const { email } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({ email , message: 'Exists' });
+    }
+    res.status(404).json({ email , message : "Do not Exists" });
+  } catch (error) {
+    // Handle any other errors that might occur during the process
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
