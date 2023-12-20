@@ -6,7 +6,7 @@ const app = express();
 // middlewares
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://backend-mmt.onrender.com/'],
+    origin: '*',
     credentials: true,
   })
 );
