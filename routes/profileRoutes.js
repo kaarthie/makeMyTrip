@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {profileEdit} = require('../controllers/profileController.js');
+const {profileEdit , profileView} = require('../controllers/profileController.js');
 router.post('/profileEdit', profileEdit);
+router.post('/profileView', profileView);
 module.exports = router;

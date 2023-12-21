@@ -3,11 +3,11 @@ const nodemailer = require('nodemailer');
 const twilio = require('twilio');
 
 module.exports.userView = async (req, res) => {
-  const userId = req.params.userId;
+  const email = req.body;
 
   try {
     // Find the user by ID
-    const user = await User.findById(userId);
+    const user = await User.findOne({email});
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -21,11 +21,11 @@ module.exports.userView = async (req, res) => {
 };
 
 module.exports.userEdit = async (req, res) => {
-  const userId = req.params.userId;
+  const email = req.body;
 
   try {
     // Find the user by ID
-    const user = await User.findById(userId);
+    const user = await User.findOne({email});
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });

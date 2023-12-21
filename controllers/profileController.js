@@ -23,3 +23,21 @@ module.exports.profileEdit = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+module.exports.profileView = async (req, res) => {
+  const {email} = req.body;
+
+  try {
+    // Find the user by ID
+    const user = await User.findOne({email});
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
