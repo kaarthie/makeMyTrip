@@ -3,23 +3,23 @@ const mongoose = require("mongoose");
 const cors = require('cors');
 const flightRouter = require('../routes/flightRoutes.js')
 const authRouter = require('../routes/authRoutes.js');
+const profileRouter = require('../routes/profileRoutes.js')
 const app = express();
 // middlewares
-app.use(
-  cors({
-    origin: '*',
-    credentials: true,
-  })
-);
+app.use(cors({ origin: '*', credentials: true }));
+
 app.use(express.json())
+
+app.use((req, res, next) => {
+  console.log(`Incoming ${req.method} request to ${req.path}`);
+  next();
+});
+
+// Router Middlewares
 app.use(authRouter);
 app.use(flightRouter);
+app.use(profileRouter);
 // Server and Database Connection
-
-app.get('/home' , (req , res) => {
-  console.log(req);
-  res.send("Homeyyyy");
-})
 const port = 3000;
 function server() {
   mongoose

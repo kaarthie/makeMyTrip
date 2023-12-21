@@ -50,7 +50,6 @@ module.exports.userEdit = async (req, res) => {
   }
 }
 
-
 // Email Verification
 
 const validateEmail = (email) => {

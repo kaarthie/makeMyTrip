@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-// Importing controllers
 const { userEdit, userView , otpEmail , otpPhone, verifyPhone, userCheck , verifyEmail, setPassword} = require('../controllers/userController.js');
 
 router.post('/otpEmail' , otpEmail);
