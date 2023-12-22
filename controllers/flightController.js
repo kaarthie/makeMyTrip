@@ -7,6 +7,10 @@ const City = require('../models/cityModel.js');
 module.exports.searchFlights = async (req, res) => {
   const { from, to, adultNos, childrenNos, fareType } = req.body;
 
+  if (!from || !from.city || !from.date || !to || !to.city || !fareType) {
+    return res.status(400).json({ error: 'Missing required fields. Please provide valid values for "from.city", "from.date", "to.city", and "fareType".' });
+  }
+  
   let flights = await Flight.find({
     'departure.city': from.city,
     'arrival.city': to.city,
