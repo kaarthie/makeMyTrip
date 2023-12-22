@@ -73,8 +73,10 @@ module.exports.searchFlights = async (req, res) => {
         return stopsArray[randomIndex];
       }
       newFlight.stop = getRandomStop();
+      let f = new Flight(newFlight);
+      console.log(f._id);
+      await Flight.create(newFlight);
       newFlights.push(newFlight);
-      await Flight.create(newFlight)
       ct += 0.5;
     }
     res.status(200).json(newFlights);

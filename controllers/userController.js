@@ -188,7 +188,7 @@ module.exports.userCheck = async (req, res) => {
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return res.status(200).json({ email, message: 'Exists' });
+      return res.status(200).json({ name : existingUser.name, message: 'Exists' });
     }
     res.status(404).json({ email, message: "Do not Exists" });
   } catch (error) {
@@ -205,7 +205,7 @@ module.exports.setPassword = async (req, res) => {
       let user = await User.findOne({ email });
       console.log(user);
       if (user.password === password) {
-        res.status(200).json({ message: "Login Success" });
+        res.status(200).json({ name : user.name , message: "Login Success" });
       } else {
         res.status(401).json({ message: "Incorrect Password" })
       }
