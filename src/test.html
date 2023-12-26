@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Razorpay Integration</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+
+<h1>Razorpay Integration</h1>
+
+<div>
+  <label for="amount">Amount (INR):</label>
+  <input type="number" id="amount" placeholder="Enter amount">
+</div>
+
+<button id="createOrderBtn">Create Order</button>
+
+<script>
+  $(document).ready(function () {
+    $('#createOrderBtn').on('click', function () {
+      const amount = $('#amount').val();
+
+      // Make a request to your Express.js server to create a Razorpay order
+      $.ajax({
+        url: 'http://localhost:3001/create-order',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ amount }),
+        success: function (response) {
+          const { orderId, amount } = response;
+
+          // Initialize Razorpay options
+          const options = {
+            key: 'rzp_test_t8F68keGKKJFmB', // Your Razorpay API key
+            amount: amount, // Amount in paisa (1 INR = 100 paisa)
+            currency: 'INR',
+            name: 'Your Company Name',
+            description: 'Payment for Order',
+            order_id: orderId,
+            handler: function (response) {
+              // Handle the success response from the Razorpay checkout
+              const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
+
+              // Make a request to your server to handle payment success
+              $.ajax({
+                url: 'http://localhost:3001/payment-success',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                  razorpay_payment_id,
+                  razorpay_order_id,
+                  razorpay_signature,
+                }),
+                success: function (successResponse) {
+                  console.log('Payment successful:', successResponse);
+                  alert('Payment Successful!');
+                },
+                error: function (error) {
+                  console.error('Error handling payment success:', error);
+                  alert('Payment failed. Please try again.');
+                },
+              });
+            },
+            prefill: {
+              // Pre-fill customer details if available
+            },
+            theme: {
+              // Customize the checkout form appearance
+            },
+          };
+
+          // Open the Razorpay checkout form
+          const razorpay = new Razorpay(options);
+          razorpay.open();
+        },
+        error: function (error) {
+          console.error('Error creating order:', error);
+        },
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
