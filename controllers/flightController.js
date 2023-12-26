@@ -3,6 +3,7 @@ const { flightLogos, flightNames, airportsData } = require('../airports/flightDe
 const airports = JSON.parse(airportsData);
 const Flight = require('../models/flightModel.js');
 const City = require('../models/cityModel.js');
+const PassengerDetails = require('../models/passengerDetailsModel.js')
 
 module.exports.searchFlights = async (req, res) => {
   const { from, to, adultNos, childrenNos, fareType } = req.body;
@@ -10,7 +11,7 @@ module.exports.searchFlights = async (req, res) => {
   if (!from || !from.city || !from.date || !to || !to.city || !fareType) {
     return res.status(400).json({ error: 'Missing required fields. Please provide valid values for "from.city", "from.date", "to.city", and "fareType".' });
   }
-  
+
   let flights = await Flight.find({
     'departure.city': from.city,
     'arrival.city': to.city,
@@ -78,7 +79,7 @@ module.exports.searchFlights = async (req, res) => {
       }
       newFlight.stop = getRandomStop();
       let f = new Flight(newFlight);
-      console.log(f._id);
+      newFlight.id = f._id;
       await Flight.create(newFlight);
       newFlights.push(newFlight);
       ct += 0.5;
@@ -133,6 +134,26 @@ module.exports.searchCity2 = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+module.exports.storePassengerDetails = async (req, res) => {
+  try {
+    const { adult, children, infant , flightId} = req.body;
+
+    const passengerDetails = new PassengerDetails({
+      flightId,
+      adult,
+      children,
+      infant,
+    });
+
+    const savedPassengerDetails = await passengerDetails.save();
+    
+    res.status(201).json({ message: 'Passenger details stored successfully', data: savedPassengerDetails });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 
 //   Functions for calculation of duration 
 function calculatePrice(fareType, distance) {

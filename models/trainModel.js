@@ -15,6 +15,7 @@ const trainSchema = new mongoose.Schema({
       station: { type: String},
       time: { type: Date, required: true },
     },
+
     duration: {
       hours: { type: Number, required: true },
       minutes: { type: Number, required: true },

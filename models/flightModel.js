@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const flightSchema = new mongoose.Schema({
+  id : {
+    type : String, required : true
+  },
   airline: {
     name: { type: String, required: [true, 'Airline name is required'] },
     logo: { type: String, required: [true, 'Airline logo is required'] },
