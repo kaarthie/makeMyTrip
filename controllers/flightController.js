@@ -156,7 +156,7 @@ module.exports.storePassengerDetails = async (req, res) => {
 
 module.exports.getPassengerDetails = async (req, res) => {
   try {
-    const passengers = await PassengerDetails.findOne(req.bookingId);
+    const passengers = await PassengerDetails.findOne({_id : req.body.bookingId});
     res.status(200).json({ passengers })
   } catch (error) {
     console.error(error);
