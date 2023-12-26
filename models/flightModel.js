@@ -9,6 +9,7 @@ const flightSchema = new mongoose.Schema({
     logo: { type: String, required: [true, 'Airline logo is required'] },
   },
   departure: {
+    date : {type : String , required: [true, 'Date is required'] },
     city: { type: String, required: [true, 'Departure city is required'] },
     cityCode: { type: String },
     airport: { type: String },

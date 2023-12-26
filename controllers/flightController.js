@@ -11,11 +11,10 @@ module.exports.searchFlights = async (req, res) => {
   if (!from || !from.city || !from.date || !to || !to.city || !fareType) {
     return res.status(400).json({ error: 'Missing required fields. Please provide valid values for "from.city", "from.date", "to.city", and "fareType".' });
   }
-
   let flights = await Flight.find({
     'departure.city': from.city,
     'arrival.city': to.city,
-    'departure.time': from.date
+    'departure.date': from.date
   });
   if (flights.length != 0) {
     res.status(200).json({ flights });
@@ -52,6 +51,7 @@ module.exports.searchFlights = async (req, res) => {
         },
         departure: {
           city: from.city,
+          date : from.date,
           time: timestampToHoursMinutesString(timestamps[i]),
           cityCode: from.cityCode,
           airport: depAirport
