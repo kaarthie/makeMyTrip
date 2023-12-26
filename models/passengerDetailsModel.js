@@ -11,15 +11,15 @@ const passengerDetailsSchema = new mongoose.Schema({
         email: { type: String },
     },
     children: {
-        firstName: { type: String, required: true },
-        lastName: { type: String, required: true },
-        gender: { type: String, required: true },
-        dob: { type: String },
+        firstName: { type: String },
+        lastName: { type: String},
+        gender: { type: String },
+        dob: { type: String }
     },
     infant: {
-        firstName: { type: String, required: true },
-        lastName: { type: String, required: true },
-        gender: { type: String, required: true },
+        firstName: { type: String },
+        lastName: { type: String },
+        gender: { type: String },
         dob: { type: String },
     },
 });
