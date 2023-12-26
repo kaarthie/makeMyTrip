@@ -147,14 +147,22 @@ module.exports.storePassengerDetails = async (req, res) => {
     });
 
     const savedPassengerDetails = await passengerDetails.save();
-    
-    res.status(201).json({ message: 'Passenger details stored successfully', data: savedPassengerDetails });
+    res.status(201).json({ message: 'Passenger details stored successfully', bookingId : savedPassengerDetails._id});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
 
+module.exports.getPassengerDetails = async (req, res) => {
+  try {
+    const passengers = await PassengerDetails.findOne(req.bookingId);
+    res.status(200).json({ passengers })
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 //   Functions for calculation of duration 
 function calculatePrice(fareType, distance) {
   let price = 10;

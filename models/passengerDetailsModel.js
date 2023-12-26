@@ -22,6 +22,7 @@ const passengerDetailsSchema = new mongoose.Schema({
         gender: { type: String },
         dob: { type: String },
     },
+    bookingId: { type: String }, 
 });
 
 const PassengerDetails = mongoose.model('PassengerDetails', passengerDetailsSchema);
