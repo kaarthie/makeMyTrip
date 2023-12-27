@@ -4,6 +4,7 @@ const cors = require('cors');
 const flightRouter = require('../routes/flightRoutes.js')
 const authRouter = require('../routes/authRoutes.js');
 const profileRouter = require('../routes/profileRoutes.js')
+const paymentRouter = require('../routes/paymentRoutes.js')
 const app = express();
 // middlewares
 app.use(cors({ origin: '*', credentials: true }));
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 app.use(authRouter);
 app.use(flightRouter);
 app.use(profileRouter);
+app.use("/payment/", paymentRouter);
 // Server and Database Connection
 const port = 3000;
 function server() {

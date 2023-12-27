@@ -16,7 +16,6 @@ module.exports.searchFlights = async (req, res) => {
     'arrival.city': to.city,
     'departure.date': from.date
   });
-  console.log(typeof flights);
   if (flights.length != 0) {
     res.status(200).json(flights);
   }
