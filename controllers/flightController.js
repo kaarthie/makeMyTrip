@@ -3,6 +3,7 @@ const { flightLogos, flightNames, airportsData } = require('../airports/flightDe
 const airports = JSON.parse(airportsData);
 const Flight = require('../models/flightModel.js');
 const City = require('../models/cityModel.js');
+const AirTicket = require('../models/airTicketModel.js')
 const PassengerDetails = require('../models/passengerDetailsModel.js')
 
 module.exports.searchFlights = async (req, res) => {
@@ -85,6 +86,17 @@ module.exports.searchFlights = async (req, res) => {
       ct += 0.5;
     }
     res.status(200).json(newFlights);
+  }
+}
+
+module.exports.airTicket = async (req , res) => {
+  try {
+    let ticket = new AirTicket(req.body);
+
+    const savedTicket = await ticket.save();
+    res.status(201).json({ message: 'Ticket details stored successfully'});
+  } catch (error) {
+    console.log(error)
   }
 }
 
