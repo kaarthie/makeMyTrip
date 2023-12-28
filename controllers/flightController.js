@@ -92,14 +92,22 @@ module.exports.searchFlights = async (req, res) => {
 module.exports.airTicket = async (req , res) => {
   try {
     let ticket = new AirTicket(req.body);
-
     const savedTicket = await ticket.save();
-    res.status(201).json({ message: 'Ticket details stored successfully'});
+    res.status(201).json({ message: 'Ticket details stored successfully', paymentId: savedTicket.paymentId});
   } catch (error) {
     console.log(error)
   }
 }
 
+module.exports.summary = async (req , res) => {
+  try {
+    const summary = await AirTicket.findOne({paymentId: req.body.paymentId});
+    res.status(200).json({summary})
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({message: "Internal server error"})
+  }
+}
 module.exports.allFlights = async (req, res) => {
   const flights = await Flight.find({});
   res.send(flights);

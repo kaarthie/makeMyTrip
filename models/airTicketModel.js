@@ -36,6 +36,10 @@ const airTicketSchema = new mongoose.Schema({
       required: true,
     },
   },
+  paymentId: {
+    type: String,
+    required: true,
+  }
 });
 
 // Create a Mongoose model for the Air Ticket using the schema

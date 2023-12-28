@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const City = require('../models/cityModel.js');
-const {searchFlights, allFlights, searchCity, searchCity2, storePassengerDetails ,getPassengerDetails, airTicket} = require('../controllers/flightController.js');
+const {searchFlights, allFlights, searchCity, searchCity2, storePassengerDetails ,getPassengerDetails, airTicket, summary} = require('../controllers/flightController.js');
 
 router.get('/' , (req , res) => {
     res.json({home : "page"})
@@ -25,5 +25,7 @@ router.post('/storePassengerDetails' , storePassengerDetails)
 router.post('/getPassengerDetails' , getPassengerDetails)
 
 router.post('/airTicket', airTicket)
+
+router.post('/summary', summary)
 
 module.exports = router
