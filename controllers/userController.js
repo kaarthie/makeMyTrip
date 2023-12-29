@@ -1,6 +1,7 @@
 const User = require('../models/userModel.js');
 const nodemailer = require('nodemailer');
 const twilio = require('twilio');
+const jwt = require('jsonwebtoken');
 
 module.exports.userView = async (req, res) => {
   const email = req.body;
@@ -103,7 +104,7 @@ module.exports.otpEmail = async (req, res) => {
 // Phone Verification - Twilio credentials
 
 const accountSid = 'AC2f0732362152cc6d9ff824ebf8709bbe';
-const authToken = '3dc77a16776ef0ee481ff7caabe78f05';
+const authToken = 'dc51c8a8f631fe17f8af3e6f4ff6f028';
 const client = twilio(accountSid, authToken);
 const { EmailOTP, PhoneOTP } = require('../models/otpModel.js')
 
@@ -120,7 +121,7 @@ module.exports.otpPhone = async (req, res) => {
       to: phone,
     });
 
-    console.log(`OTP sent to ${phone}: ${message.sid}`);
+    console.log(`OTP sent to ${phone}`);
     await PhoneOTP.create({
       phone,
       otp
@@ -203,9 +204,9 @@ module.exports.setPassword = async (req, res) => {
     const { email, name, password } = req.body;
     if (!name) {
       let user = await User.findOne({ email });
-      console.log(user);
       if (user.password === password) {
-        res.status(200).json({ name : user.name , message: "Login Success" });
+        const token = jwt.sign({ username: user.name }, 'mmt-secret-key', { expiresIn: '1h' });
+        res.status(200).json({ name : user.name , message: "Login Success", token });
       } else {
         res.status(401).json({ message: "Incorrect Password" })
       }
@@ -213,7 +214,8 @@ module.exports.setPassword = async (req, res) => {
     else {
       const newUser = new User({ email, name, password });
       await newUser.save();
-      res.status(200).json({ message: "User Created Successfully" })
+      const token = jwt.sign({ username: username }, 'your-secret-key', { expiresIn: '1h' });
+      res.status(200).json({ message: "User Created Successfully", token })
     }
   } catch (error) {
     console.error(error);

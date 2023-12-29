@@ -12,6 +12,16 @@ module.exports.searchFlights = async (req, res) => {
   if (!from || !from.city || !from.date || !to || !to.city || !fareType) {
     return res.status(400).json({ error: 'Missing required fields. Please provide valid values for "from.city", "from.date", "to.city", and "fareType".' });
   }
+
+  const inputDate = new Date(from.date);
+  if (isNaN(inputDate)) {
+    res.status(400).json({ message: 'Invalid date format' });
+    return;
+  }
+  if (inputDate.getDate() < new Date().getDate()) {
+    res.status(400).json({ message: 'Date is in the past' });
+    return;
+  }
   let flights = await Flight.find({
     'departure.city': from.city,
     'arrival.city': to.city,
@@ -108,6 +118,7 @@ module.exports.summary = async (req , res) => {
     res.status(500).json({message: "Internal server error"})
   }
 }
+
 module.exports.allFlights = async (req, res) => {
   const flights = await Flight.find({});
   res.send(flights);
