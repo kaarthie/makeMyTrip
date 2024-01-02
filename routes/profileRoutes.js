@@ -4,8 +4,8 @@ const {profileEdit , profileView} = require('../controllers/profileController.js
 const jwt = require('jsonwebtoken')
 
 const authenticateJWT = (req, res, next) => {
-    const token = req.header('Authorization');
-  
+    // const token = req.header('Authorization');
+    const token = req.body.token
     if (!token) {
       return res.status(401).json({ message: 'Unauthorized' });
     }

@@ -108,7 +108,6 @@ const authToken = 'dc51c8a8f631fe17f8af3e6f4ff6f028';
 const client = twilio(accountSid, authToken);
 const { EmailOTP, PhoneOTP } = require('../models/otpModel.js')
 
-
 module.exports.otpPhone = async (req, res) => {
   const { phone } = req.body;
 
