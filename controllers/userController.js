@@ -214,7 +214,7 @@ module.exports.setPassword = async (req, res) => {
     else {
       const newUser = new User({ email, name, password });
       await newUser.save();
-      const token = jwt.sign({ username: username }, 'your-secret-key', { expiresIn: '1h' });
+      const token = jwt.sign({ username: name }, 'your-secret-key', { expiresIn: '1h' });
       res.status(200).json({ message: "User Created Successfully", token })
     }
   } catch (error) {
