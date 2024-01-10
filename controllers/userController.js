@@ -67,13 +67,13 @@ module.exports.otpEmail = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'santhoshkannan9500@gmail.com',
-        pass: 'santhoshg9500',
+        user: 'karthikeyan.r@codingmart.com',
+        pass: 'Karthi@09CM',
       },
     });
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
     const mailOptions = {
-      from: 'venusubashr20ug0470@drngpit.ac.in',
+      from: 'karthikeyan.r@codingmart.com',
       to: email,
       subject: 'Email Verification',
       text: `Your OTP for Email Verification: ${otp}`,
