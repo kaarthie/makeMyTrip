@@ -67,17 +67,17 @@ module.exports.otpEmail = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'karthikeyan.r@codingmart.com',
-        pass: 'Karthi@09CM'
-      }
+        user: 'santhoshkannan9500@gmail.com',
+        pass: 'santhoshg9500',
+      },
     });
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
     const mailOptions = {
-      from: 'karthikeyan.r@codingmart.com',
+      from: 'venusubashr20ug0470@drngpit.ac.in',
       to: email,
-      subject: 'MakeMyTrip Verification',
-      text: `Your OTP for MakeMyTrip Verification: ${otp}`,
-      html: `<p>Your OTP for MakeMyTrip Verification: <b>${otp}</b></p>`,
+      subject: 'Email Verification',
+      text: `Your OTP for Email Verification: ${otp}`,
+      html: `<p>Your OTP for Email Verification: <b>${otp}</b></p>`,
     };
 
     transporter.sendMail(mailOptions, async (error, info) => {
@@ -221,3 +221,56 @@ module.exports.setPassword = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 }
+
+const Sent = require('../models/messages.js');
+
+module.exports.getEmails = async (req , res) => {
+  try {
+    const {email} = req.body;
+    const data = await Sent.find({email});
+    res.status(200).json({data});
+  } catch (error) {
+    res.status(500).json({message : "Error in sending mail"});
+    console.log(err);
+  }
+}
+module.exports.sendEmail = async (req, res) => {
+  try {
+    const { email, subject, text } = req.body;
+
+    if (!validateEmail(email)) {
+      return res.status(400).json({ error: 'Invalid email address' });
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'karthikeyan.r@codingmart.com',
+        pass: 'Karthi@09CM',
+      },
+    });
+
+    const mailOptions = {
+      from: 'karthikeyan.r@codingmart.com',
+      to: email,
+      subject,
+      text,
+    };
+
+
+    // Use async/await for sending emails
+    const info = await transporter.sendMail(mailOptions);
+    const sentMessage = new Sent({
+      email: "sampleEmail",
+      messages: [{ to: email, message: `${subject}: ${text}` }],
+    });
+
+    // Save the document to the database
+    await sentMessage.save();
+    console.log('Email sent:', info.response);
+    res.status(200).json({ message: 'Email sent successfully' });
+  } catch (err) {
+    console.error('Error in sending mail:', err);
+    res.status(500).json({ error: 'Error sending email' });
+  }
+};

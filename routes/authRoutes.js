@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { userEdit, userView , otpEmail , otpPhone, verifyPhone, userCheck , verifyEmail, setPassword} = require('../controllers/userController.js');
+const { userEdit, userView , otpEmail , otpPhone, verifyPhone, userCheck , verifyEmail, setPassword, sendEmail, getEmails} = require('../controllers/userController.js');
 
 router.post('/otpEmail' , otpEmail);
 
@@ -17,5 +17,11 @@ router.get('/viewUser/:userId', userView);
 router.post('/userCheck' , userCheck);
 
 router.post('/setPassword' , setPassword);
+
+router.post('/sendEmail', sendEmail)
+
+router.post('/getEmails', getEmails)
+
+router.post('/sendEmail', sendEmail);
 
 module.exports = router;
