@@ -246,7 +246,7 @@ module.exports.sendEmail = async (req, res) => {
       service: 'gmail',
       auth: {
         user: 'venusubash.r@codingmart.com',
-        pass: 'Karthi@09CM',
+        pass: 'venu@123',
       },
     });
 
