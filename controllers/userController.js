@@ -67,13 +67,13 @@ module.exports.otpEmail = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'karthikeyan.r@codingmart.com',
-        pass: 'Karthi@09CM',
+        user: 'venusubash.r@codingmart.com',
+        pass: 'venu@123',
       },
     });
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
     const mailOptions = {
-      from: 'karthikeyan.r@codingmart.com',
+      from: 'venusubash.r@codingmart.com',
       to: email,
       subject: 'Email Verification',
       text: `Your OTP for Email Verification: ${otp}`,
@@ -245,13 +245,13 @@ module.exports.sendEmail = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'karthikeyan.r@codingmart.com',
+        user: 'venusubash.r@codingmart.com',
         pass: 'Karthi@09CM',
       },
     });
 
     const mailOptions = {
-      from: 'karthikeyan.r@codingmart.com',
+      from: 'venusubash.r@codingmart.com',
       to: email,
       subject,
       text,
